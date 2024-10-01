@@ -1,0 +1,157 @@
+# CONFIG.yaml for picture(sample) generation.
+# Use-case -> CylinderStacking
+
+VARIANTS:
+
+  - Variant: 4
+    Objects:
+
+      - name: "BaseCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+      
+      - name: "TopCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+  - Variant: 1
+    Objects:
+
+      - name: "BaseCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+  - Variant: 2
+    Objects:
+
+      - name: "TopCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+  - Variant: 3
+    Objects:
+
+      - name: "EmptyAssembly"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "assembly"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.65}"
+          y: "{'min': 0.1, 'max': 0.95}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+  - Variant: 5
+    Objects:
+
+      - name: "BaseCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+      
+      - name: "TopCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+      - name: "EmptyAssembly"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "assembly"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.65}"
+          y: "{'min': 0.1, 'max': 0.95}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+
+  - Variant: 6
+    Objects:
+
+      - name: "MidAssembly"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "assembly"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.65}"
+          y: "{'min': 0.1, 'max': 0.95}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+      
+      - name: "TopCylinder"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "cylinder"
+        pose: 
+          x: "{'min': 0.4, 'max': 0.75}"
+          y: "{'min': 0.0, 'max': 1.05}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
+  
+  - Variant: 7
+    Objects:
+
+      - name: "FullAssembly"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "assembly"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.65}"
+          y: "{'min': 0.1, 'max': 0.95}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 1.0
