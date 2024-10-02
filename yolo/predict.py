@@ -145,9 +145,11 @@ def main(args=None):
             
             PREDICTION = YOLOmodel(inputIMG)
             RESULTS = PREDICTION[0].plot()
+            
+            WINDOW = cv2.resize(RESULTS, (1280, 720))
 
             TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS"
-            cv2.imshow(TITLE, RESULTS)
+            cv2.imshow(TITLE, WINDOW)
 
         key = cv2.waitKey(1)
         if key == ord('e'):
