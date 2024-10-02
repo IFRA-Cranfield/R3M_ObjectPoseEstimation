@@ -29,7 +29,7 @@ install(
   DIRECTORY 
     python
     opencv
-    yolov8
+    yolo
   DESTINATION 
     share/${PROJECT_NAME}
 )
@@ -37,6 +37,9 @@ install(PROGRAMS
   
   python/imgROS2.py
   python/RecordSamples_Gazebo.py
+
+  yolo/train.py
+  yolo/predict.py
 
   DESTINATION lib/${PROJECT_NAME} 
 )
