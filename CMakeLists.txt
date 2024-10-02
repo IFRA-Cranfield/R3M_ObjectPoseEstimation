@@ -37,6 +37,7 @@ install(PROGRAMS
   
   python/imgROS2.py
   python/RecordSamples_Gazebo.py
+  python/RecordSamples_Camera.py
 
   yolo/train.py
   yolo/predict.py
