@@ -1,0 +1,258 @@
+#!/usr/bin/python3
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso         - Mikel.Bueno-Viso@cranfield.ac.uk                 #
+#           Seemal Asif              - s.asif@cranfield.ac.uk                           #
+#           Phil Webb                - p.f.webb@cranfield.ac.uk                         #
+#                                                                                       #
+#  Date: November, 2024.                                                                #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/ros2_ObjectPoseEstimation
+
+# arucoMRKR.py
+# This script contains the ros2ope_ARUCO class and its functions.
+
+# ===== IMPORT REQUIRED COMPONENTS ===== #
+import os, cv2, yaml, time
+import numpy as np
+from cv_bridge import CvBridge
+
+# Import ROS 2:
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+
+# =========================================== #
+# Image SUBSCRIBER class:
+class imgSUB(Node):
+    
+    def __init__(self, TOPICNAME):
+        
+        # Declare NODE:
+        super().__init__("r3m_imgSUB")
+        
+        # Declare SUBSCRIBER:
+        self.subscription = self.create_subscription(
+            Image,                                             
+            TOPICNAME, 
+            self.listener_callback, 
+            1) 
+        self.subscription 
+        
+        self.IMAGE = Image()
+        self.BRIDGE = CvBridge()
+
+    def listener_callback(self, IMG):
+        self.IMAGE = IMG
+
+    def toCV2_fromTOPIC(self):
+        IMG_CV2 = self.BRIDGE.imgmsg_to_cv2(self.IMAGE, "passthrough")
+        return(IMG_CV2)
+    
+# =========================================== #
+# FUNCTION -> GET image (CV2 format) from ROS 2 topic:
+def toCV2_fromTOPIC(TOPIC):
+    
+    # INITIALISE CLASSES:
+    BRIDGE = CvBridge()
+    SUB = imgSUB(TOPIC)
+    
+    # Get IMAGE (sensor_msgs/Image format) from ROS 2 TOPIC:
+    T = time.time() + 0.25
+    while time.time() < T:
+        rclpy.spin_once(SUB)   
+    IMG_ROS2 = SUB.IMAGE
+    
+    # CONVERT:
+    IMG_CV2 = BRIDGE.imgmsg_to_cv2(IMG_ROS2, "bgr8")
+    
+    # Delete CLASS INSTANCES:
+    del BRIDGE, SUB
+    
+    # Return IMAGE (OpenCV format):
+    return(IMG_CV2)
+
+# =========================================== #
+# ARUCO class:
+class ros2ope_aruco():
+
+    def __init__(self, CAMERA, length):
+
+        self.ARUCOdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
+
+        self.CAMERA = CAMERA
+        self.camera_matrix = None
+        self.dist_coeffs = None
+        self.loadCALIBPARAMS()
+        
+        self.ARUCOlength = length # (m)
+
+    def loadCALIBPARAMS(self):
+
+        DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope', 'opencv', 'calibration')
+        yamlPATH =  DIR + "/" + self.CAMERA + "/calibration.yaml"
+
+        with open(yamlPATH) as f:
+            loaded_dict = yaml.load(f, Loader=yaml.FullLoader)
+
+        self.camera_matrix = np.array(loaded_dict.get('camera_matrix'))
+        self.dist_coeffs = np.array(loaded_dict.get('dist_coeff'))
+
+        return()
+    
+    def detectARUCO(self, IMG):
+
+        gray = cv2.cvtColor(IMG, cv2.COLOR_BGR2GRAY)
+        parameters = cv2.aruco.DetectorParameters()
+        corners, ids, rejected_img_points = cv2.aruco.detectMarkers(gray, self.ARUCOdict, parameters=parameters)
+
+        return(corners, ids)
+    
+    def getARUCOpose(self, corners, ids):
+
+        rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, self.ARUCOlength, self.camera_matrix, self.dist_coeffs)
+        
+        return(rvecs, tvecs)
+    
+    def getARUCOposition(self, tvec):
+        
+        x, y, z = tvec[0]
+        z = -z
+
+        return(x, y, z)
+    
+    def EXECUTE(self, IMG):
+
+        RES = {}
+        RES["Success"] = False
+        RES["Frame"] = None
+        RES["x"] = None
+        RES["y"] = None
+        RES["z"] = None
+
+        # Detect ARUCO:
+        corners, ids = self.detectARUCO(IMG)
+
+        if ids is not None:
+        
+            # GET ARUCO POSE:
+            rvecs, tvecs = self.getARUCOpose(corners, ids)
+
+            for i in range(len(ids)):
+
+                rvec = rvecs[i]
+                tvec = tvecs[i]
+
+                # Draw ArUco markers on the image:
+                frame = cv2.aruco.drawDetectedMarkers(IMG, corners)
+
+                # Draw FRAME AXES:
+                if (rvec is not None) and (tvec is not None):
+                    cv2.drawFrameAxes(frame, self.camera_matrix, self.dist_coeffs, rvec, tvec, self.ARUCOlength * 0.5)
+
+                # Get POSITION of ARUCO marker:
+                x, y, z = self.getARUCOposition(tvec)
+
+                RES["Success"] = True
+                RES["Frame"] = frame
+                RES["x"] = x
+                RES["y"] = y
+                RES["z"] = z
+
+                return(RES)
+        
+        else:
+            return(RES)
+    
+# ===================================================================================== #
+# ======================================= MAIN ======================================== #
+# ===================================================================================== #
+
+def main(args=None):
+
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("Object Detection and Pose Estimation in ROS 2.")
+    print("Python script -> arucoMRKR.py")
+    print("")
+
+    rclpy.init(args=None)
+    camTOPIC = "camera/image_raw"
+    CAMERA = "lenovoFHD_gazebo"
+    ARUCO = ros2ope_aruco(CAMERA, 0.1)
+
+    while True:
+    
+        # GET IMAGE, from GAZEBO:
+        IMG = toCV2_fromTOPIC(camTOPIC)
+
+        # Detect ARUCO:
+        corners, ids = ARUCO.detectARUCO(IMG)
+        
+        if ids is not None:
+        
+            # GET ARUCO POSE:
+            rvecs, tvecs = ARUCO.getARUCOpose(corners, ids)
+
+            for i in range(len(ids)):
+
+                rvec = rvecs[i]
+                tvec = tvecs[i]
+
+                # Draw ArUco markers on the image:
+                frame = cv2.aruco.drawDetectedMarkers(IMG, corners)
+
+                # Draw FRAME AXES:
+                if (rvec is not None) and (tvec is not None):
+                    cv2.drawFrameAxes(frame, ARUCO.camera_matrix, ARUCO.dist_coeffs, rvec, tvec, ARUCO.ARUCOlength * 0.5)
+
+                # Get POSITION of ARUCO marker:
+                x, y, z = ARUCO.getARUCOposition(tvec)
+
+                # PRINT:
+                print("ARUCO marker detected:")
+                print(" - ID: " + str(ids[i][0]))
+                print(" - x: " + str(x))
+                print(" - y: " + str(y))
+                print(" - z: " + str(z))
+
+            cv2.imshow('=== ARUCO MARKER DETECTION and POSE ESTIMATION ===', frame)
+
+            key = cv2.waitKey(1)
+            if key == ord('e'):
+                cv2.destroyAllWindows()
+                break
+
+        else:
+            print("ARUCO marker not detected.")
+            break
+
+    rclpy.shutdown()
+    print("")
+    print("Closing... BYE!")
+    exit()
+
+if __name__ == '__main__':
+    main()

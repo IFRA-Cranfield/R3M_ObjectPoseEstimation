@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import sys
+sys.dont_write_bytecode = True
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,26 +30,32 @@
 # You can cite our work with the following statement:
 # IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/ros2_ObjectPoseEstimation
 
-# predict.py
-# This script runs the YOLO-predict execution for a custom detection model.
+# PositionEstimation.py
+# This script performs:
+#   - Object Detection using a custom YOLO model.
+#   - Object Position Estimation (center of the detected YOLO-based bounding box) by calculating the object's position relative to the OpenCV-ArUco marker.
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
+import os, sys
+
 # Required to include ROS2 and its components:
 import rclpy
 from rclpy.node import Node
-# CAMERA ROS2msg:
+
+# ROS 2 data:
+from objectpose_msgs.msg import ObjectPose
 from sensor_msgs.msg import Image
+
 # OpenCV:
 import cv2
 # ROS2 to OpenCV -> cv_bridge:
 from cv_bridge import CvBridge, CvBridgeError
-# YOLOv8:
-from ultralytics import YOLO
-# Extra:
-import os, sys
 
-# Global Variable:
-Gz_CAM = None
+# YOLO:
+from ultralytics import YOLO
+
+# ARUCO:
+from arucoMRKR import ros2ope_aruco
 
 # ================================================== #
 # CLASS -> GazeboCamera:
@@ -88,7 +96,7 @@ def main(args=None):
     print("")
 
     print("Object Detection and Pose Estimation in ROS 2.")
-    print("Python script -> predict.py")
+    print("Python script -> PositionEstimation.py")
     print("")
 
     # Get ENVIRONMENT parameter value:
@@ -101,6 +109,16 @@ def main(args=None):
         print("Closing... BYE!")
         exit()
 
+    # Get CAMERANAME Parameter value:
+    CAMName = AssignArgument("camera")
+    if CAMName != None:
+        print("Camera selected -> "+ CAMName)
+    else:
+        print("")
+        print("ERROR: camera INPUT ARGUMENT has not been defined. Please try again.")
+        print("Closing... BYE!")
+        exit()
+
     # Get MODELname parameter value:
     MODELname = AssignArgument("model")
     if MODELname != None:
@@ -110,10 +128,32 @@ def main(args=None):
         print("ERROR: model INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-    
-    print("")
 
-    # Load custom MODEL:
+    # Get VISUALIZE parameter value:
+    VISUALIZE = AssignArgument("visualize")
+    if VISUALIZE == "True" or VISUALIZE == "true":
+        print("Visualize results -> True")
+        print("")
+        VISUALIZE = True
+    elif VISUALIZE == "False" or VISUALIZE == "false" or VISUALIZE == None:
+        print("Visualize results -> False")
+        print("")
+        VISUALIZE = False
+    else:
+        print("")
+        print("ERROR: visualize INPUT ARGUMENT has not been properly defined (True/False). Please try again.")
+        print("Closing... BYE!")
+        exit()
+
+    rclpy.init()
+
+    # Initialise CAMERAS:
+    if ENVIRONMENT == "gazebo":
+        CAMERA = GazeboCamera()
+    elif ENVIRONMENT == "robot":
+        CAMERA = cv2.VideoCapture(0)
+
+    # Load custom YOLO MODEL:
     DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope',  'yolo', 'models')
     modelPATH = DIR + "/" + MODELname + ".pt"
 
@@ -124,13 +164,25 @@ def main(args=None):
     
     # YOLOmodel:
     YOLOmodel = YOLO(modelPATH)
+    names = YOLOmodel.names
+    print("The YOLO model will try to detect the following objects:")
+    print(names)
+    print("")
 
-    # Initialise CAMERAS:
-    if ENVIRONMENT == "gazebo":
-        rclpy.init()
-        CAMERA = GazeboCamera()
-    elif ENVIRONMENT == "robot":
-        CAMERA = cv2.VideoCapture(0)
+    ObjectList = []
+    for key in names:
+        ObjectList.append(names[key])
+
+    # Initialise PUBLISHER NODE:
+    PUBnode = rclpy.create_node("ros2ope_PUBLISHER")
+
+    PUBList = {}
+    for x in ObjectList:  
+        TopicName = "/" + x + "/ObjectPoseEstimation"
+        PUBList[x] = PUBnode.create_publisher(ObjectPose, TopicName, 10)
+
+    # ARUCO:
+    ARUCO = ros2ope_aruco(CAMName, 0.1)
 
     # Run execution-PREDICTION INFERENCE:
     while True:
@@ -143,27 +195,84 @@ def main(args=None):
 
         if inputIMG is not None:
             
-            PREDICTION = YOLOmodel(inputIMG)
-            RESULTS = PREDICTION[0].plot()
+            # A. DETECT ARUCO and RETURN ARUCO POSITION:
+            ARUCO_RES = ARUCO.EXECUTE(inputIMG)
+
+            if not ARUCO_RES["Success"]:
+                print("")
+                print("ERROR: ArUco tag detection lost. Please try again.")
+                print("Closing... BYE!")
+                exit()
+            else:
+                inputIMG = ARUCO_RES["Frame"]
+                ARUCOx = ARUCO_RES["x"]
+                ARUCOy = ARUCO_RES["y"]
+                ARUCOz = ARUCO_RES["z"]
+
+            # B. EXECUTE YOLO-based object detection:
+            PREDICTION = YOLOmodel.predict(inputIMG, verbose=False)
             
-            WINDOW = cv2.resize(RESULTS, (1280, 720))
+            for R in PREDICTION:
 
-            TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS"
-            cv2.imshow(TITLE, WINDOW)
+                boxes = R.boxes
 
-        key = cv2.waitKey(1)
-        if key == ord('e'):
-            cv2.destroyWindow(TITLE)
-            break
+                for box in boxes:
+
+                    # Get NAME of the detected OBJECT:
+                    C = int(box.cls)
+                    ObjectName = YOLOmodel.names[C]
+
+                    # Calculate CENTER of BB:
+                    B = box.xyxy[0]
+                    BBx = (B[0] + B[2])/2
+                    BBy = (B[1] + B[3])/2
+
+                    # CALCULATE DEPTH of OBJECT:
+                    OBJz = ARUCOz + (BBy - ARUCO.camera_matrix[1, 2]) * ARUCOz / ARUCO.camera_matrix[1, 1]
+
+                    # CALCULATE x and y COORDINATES of OBJECT:
+                    OBJx = (BBx - ARUCO.camera_matrix[0, 2]) * OBJz / ARUCO.camera_matrix[0, 0]
+                    OBJy = (BBy - ARUCO.camera_matrix[1, 2]) * OBJz / ARUCO.camera_matrix[1, 1]
+
+                    print("ARUCO -> X: " + str(ARUCOx) +", Y: " + str(ARUCOy))
+                    print("NAME: " + ObjectName + " X: " + str(OBJx) +", Y: " + str(OBJy))
+
+                    # CALCULATE OBJECT COORDINATES RELATIVE TO ARUCO:
+                    X = -float(OBJy - ARUCOx)
+                    Y = -float(OBJx + ARUCOy)
+                    
+                    # PUBLISH POSE:
+                    POSE = ObjectPose()
+                    POSE.objectname = ObjectName
+                    POSE.x = X
+                    POSE.y = Y
+
+                    PUBList[ObjectName].publish(POSE)
+
+                    # To visualize BoundingBoxes:
+                    cv2.rectangle(inputIMG, (int(B[0]), int(B[1])), (int(B[2]), int(B[3])), (0,0,0), 2)
+
+                    # To visualize pose next to objects:
+                    LABEL = ObjectName + " -> x: " + str(X) + ", y: " + str(Y)
+                    cv2.putText(inputIMG, LABEL, (int(B[0]), int(B[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2)
+
+            if VISUALIZE:
+                
+                WINDOW = cv2.resize(inputIMG, (1280, 720))
+                TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS and OBJECT POSITION ESTIMATION"
+                cv2.imshow(TITLE, WINDOW)
+
+                key = cv2.waitKey(1)
+                if key == ord('e'):
+                    cv2.destroyWindow(TITLE)
+                    break
 
     print("")
-    print("YOLO model prediction successfully closed.")
+    print("Object POSITION ESTIMATION finalised.")
     print("Closing... BYE!")
 
     if ENVIRONMENT == "gazebo":
         rclpy.shutdown()
-    
-    exit()
 
 if __name__ == '__main__':
     main()

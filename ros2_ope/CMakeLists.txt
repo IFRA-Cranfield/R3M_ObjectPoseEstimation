@@ -44,6 +44,9 @@ install(PROGRAMS
 
   opencv/calibration/calibrate.py
   opencv/calibration/getsample_Gz.py
+  
+  opencv/arucoMRKR.py
+  opencv/PositionEstimation.py
 
   DESTINATION lib/${PROJECT_NAME} 
 )
