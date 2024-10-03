@@ -5,7 +5,7 @@ sys.dont_write_bytecode = True
 # IMPORT:
 import numpy as np
 import cv2 as cv
-import os
+import os, yaml
  
 # ============================================================= #           
 # EVALUATE INPUT ARGUMENTS:
@@ -55,8 +55,8 @@ def main(args=None):
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
     
     # Prepare object points:
-    objp = np.zeros((7*10,3), np.float32)
-    objp[:,:2] = np.mgrid[0:7,0:10].T.reshape(-1,2) * 0.05 # 0.05m is the square size (5cm).
+    objp = np.zeros((6*9,3), np.float32)
+    objp[:,:2] = np.mgrid[0:6,0:9].T.reshape(-1,2) * 0.05 # 0.05m is the square size (5cm).
     
     # Arrays to store object points and image points from all the images:
     objpoints = [] # 3d point in real world space
@@ -70,7 +70,7 @@ def main(args=None):
     PATH = DIR + "/" + CAMERA + "/samples/"
 
     # Load images:
-    for i in range(1,N):
+    for i in range(1,N+1):
         imgPATH = PATH + str(i) + ".png"
         img = cv.imread(imgPATH)
         if img is not None:
@@ -81,16 +81,27 @@ def main(args=None):
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
         # Find the chess board corners
-        ret, corners = cv.findChessboardCorners(gray, (7,10), None)
+        ret, corners = cv.findChessboardCorners(gray, (6,9), None)
     
         # If found, add object points, image points (after refining them):
         if ret == True:
+            
+            print("Chessboard corners found.")
+            
             objpoints.append(objp)
             imgpoints.append(corners)
-            cv.drawChessboardCorners(img, (7,10), corners, ret)
-            cv.imshow('img', img)
-            cv.waitKey(0)
-    
+            cv.drawChessboardCorners(img, (6,9), corners, ret)
+            
+            while True:
+                cv.imshow('img', img)
+                key = cv.waitKey(1)
+                if key == ord('e'):
+                    cv.destroyWindow('img')
+                    break
+        
+        else:
+            print("Chessboard corners not found.")
+                    
     # Calibrate the camera
     ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
@@ -98,12 +109,12 @@ def main(args=None):
     print("Camera Matrix:\n", mtx)
     print("Distortion Coefficients:\n", dist)
 
-    # Save the calibration parameters:
-    np.savez("calibration_data.npz", mtx=mtx, dist=dist)
-
-    cv.destroyAllWindows()
-
-    cv.destroyAllWindows()
+    # SAVE PARAMETERS:
+    data = {'camera_matrix': np.asarray(mtx).tolist(), 'dist_coeff': np.asarray(dist).tolist()}
+    yamlPATH =  DIR + "/" + CAMERA + "/calibration.yaml"
+    
+    with open(yamlPATH, "w") as f:
+        yaml.dump(data, f)
 
 if __name__ == '__main__':
     main()
