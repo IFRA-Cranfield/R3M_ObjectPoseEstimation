@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(ros2_ope)
+project(ros2_opecalibration)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -27,22 +27,12 @@ endif()
 # REQUIRED TO EXECUTE .py scripts:
 install(
   DIRECTORY 
-    python
-    opencv
-    yolo
+    launch
+    worlds
+    meshes
+    urdf
   DESTINATION 
     share/${PROJECT_NAME}
-)
-install(PROGRAMS
-  
-  python/imgROS2.py
-  python/RecordSamples_Gazebo.py
-  python/RecordSamples_Camera.py
-
-  yolo/train.py
-  yolo/predict.py
-
-  DESTINATION lib/${PROJECT_NAME} 
 )
 
 ament_package()
