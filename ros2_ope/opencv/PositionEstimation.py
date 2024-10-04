@@ -56,6 +56,7 @@ from ultralytics import YOLO
 
 # ARUCO:
 from arucoMRKR import ros2ope_aruco
+import numpy as np
 
 # ================================================== #
 # CLASS -> GazeboCamera:
@@ -208,6 +209,7 @@ def main(args=None):
                 ARUCOx = ARUCO_RES["x"]
                 ARUCOy = ARUCO_RES["y"]
                 ARUCOz = ARUCO_RES["z"]
+                ROTm = ARUCO_RES["R"]
 
             # B. EXECUTE YOLO-based object detection:
             PREDICTION = YOLOmodel.predict(inputIMG, verbose=False)
@@ -228,33 +230,48 @@ def main(args=None):
                     BBy = (B[1] + B[3])/2
 
                     # CALCULATE DEPTH of OBJECT:
-                    OBJz = ARUCOz + (BBy - ARUCO.camera_matrix[1, 2]) * ARUCOz / ARUCO.camera_matrix[1, 1]
+                    OBJz = ARUCOz
 
                     # CALCULATE x and y COORDINATES of OBJECT:
                     OBJx = (BBx - ARUCO.camera_matrix[0, 2]) * OBJz / ARUCO.camera_matrix[0, 0]
                     OBJy = (BBy - ARUCO.camera_matrix[1, 2]) * OBJz / ARUCO.camera_matrix[1, 1]
 
-                    print("ARUCO -> X: " + str(ARUCOx) +", Y: " + str(ARUCOy))
-                    print("NAME: " + ObjectName + " X: " + str(OBJx) +", Y: " + str(OBJy))
-
+                    print("=== CAMERA COORDINATES ===")
+                    print("ARUCO -> X: " + str(ARUCOx) +", Y: " + str(ARUCOy) + ", Z: " +str(ARUCOz))
+                    print("NAME: " + ObjectName + " X: " + str(OBJx.item()) +", Y: " + str(OBJy.item()) + ", Z: " + str(OBJz.item()))
+                    print("")
+                    
+                    (gOBJx, gOBJy, gOBJz) = np.array([OBJx.item(), OBJy.item(), OBJz.item()]) @ ROTm
+                    (gARUCOx, gARUCOy, gARUCOz) = np.array([ARUCOx, ARUCOy, ARUCOz]) @ ROTm
+                    
+                    print("=== GLOBAL COORDINATES ===")
+                    print("ARUCO -> X: " + str(gARUCOx.item()) +", Y: " + str(gARUCOy.item()) + ", Z: " +str(gARUCOz.item()))
+                    print("NAME: " + ObjectName + " X: " + str(gOBJx.item()) +", Y: " + str(gOBJy.item()) + ", Z: " + str(gOBJz.item()))
+                    print("")
+                    
                     # CALCULATE OBJECT COORDINATES RELATIVE TO ARUCO:
-                    X = -float(OBJy - ARUCOx)
-                    Y = -float(OBJx + ARUCOy)
+                    X = float(gOBJx.item() - gARUCOx.item())
+                    Y = float(gOBJy.item() - gARUCOy.item())
+                    Z = float(gOBJz.item() - gARUCOz.item())
                     
                     # PUBLISH POSE:
                     POSE = ObjectPose()
                     POSE.objectname = ObjectName
                     POSE.x = X
                     POSE.y = Y
+                    POSE.z = Z
 
                     PUBList[ObjectName].publish(POSE)
 
                     # To visualize BoundingBoxes:
                     cv2.rectangle(inputIMG, (int(B[0]), int(B[1])), (int(B[2]), int(B[3])), (0,0,0), 2)
+                    cv2.circle(inputIMG, (int(BBx), int(BBy)), radius=3, color=(0,255,0), thickness=-1)
 
                     # To visualize pose next to objects:
                     LABEL = ObjectName + " -> x: " + str(X) + ", y: " + str(Y)
                     cv2.putText(inputIMG, LABEL, (int(B[0]), int(B[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2)
+                    
+                print("")
 
             if VISUALIZE:
                 

@@ -33,6 +33,7 @@
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 import os, cv2, yaml, time
+import scipy.spatial.transform as spt
 import numpy as np
 from cv_bridge import CvBridge
 
@@ -109,14 +110,14 @@ class ros2ope_aruco():
     def loadCALIBPARAMS(self):
 
         DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope', 'opencv', 'calibration')
+        
         yamlPATH =  DIR + "/" + self.CAMERA + "/calibration.yaml"
-
         with open(yamlPATH) as f:
             loaded_dict = yaml.load(f, Loader=yaml.FullLoader)
 
         self.camera_matrix = np.array(loaded_dict.get('camera_matrix'))
         self.dist_coeffs = np.array(loaded_dict.get('dist_coeff'))
-
+    
         return()
     
     def detectARUCO(self, IMG):
@@ -133,12 +134,26 @@ class ros2ope_aruco():
         
         return(rvecs, tvecs)
     
-    def getARUCOposition(self, tvec):
+    def getARUCOposition(self, tvec, rvec):
         
         x, y, z = tvec[0]
-        z = -z
+        
+        R, _ = cv2.Rodrigues(rvec[0])
+        xG, yG, zG = tvec[0] @ R
+        
+        print("ARUCO marker detected.")
+        print("Relative pose to camera, in camera coordinates:")
+        print(" - x: " + str(x))
+        print(" - y: " + str(y))
+        print(" - z: " + str(z))
+        
+        print("Relative pose to camera, in global coordinates:")
+        print(" - x: " + str(xG))
+        print(" - y: " + str(yG))
+        print(" - z: " + str(zG))
+        print("")
 
-        return(x, y, z)
+        return(x, y, z, R)
     
     def EXECUTE(self, IMG):
 
@@ -170,13 +185,14 @@ class ros2ope_aruco():
                     cv2.drawFrameAxes(frame, self.camera_matrix, self.dist_coeffs, rvec, tvec, self.ARUCOlength * 0.5)
 
                 # Get POSITION of ARUCO marker:
-                x, y, z = self.getARUCOposition(tvec)
+                x, y, z, R = self.getARUCOposition(tvec, rvec)
 
                 RES["Success"] = True
                 RES["Frame"] = frame
                 RES["x"] = x
                 RES["y"] = y
                 RES["z"] = z
+                RES["R"] = R
 
                 return(RES)
         
@@ -229,14 +245,7 @@ def main(args=None):
                     cv2.drawFrameAxes(frame, ARUCO.camera_matrix, ARUCO.dist_coeffs, rvec, tvec, ARUCO.ARUCOlength * 0.5)
 
                 # Get POSITION of ARUCO marker:
-                x, y, z = ARUCO.getARUCOposition(tvec)
-
-                # PRINT:
-                print("ARUCO marker detected:")
-                print(" - ID: " + str(ids[i][0]))
-                print(" - x: " + str(x))
-                print(" - y: " + str(y))
-                print(" - z: " + str(z))
+                x, y, z, R = ARUCO.getARUCOposition(tvec, rvec)
 
             cv2.imshow('=== ARUCO MARKER DETECTION and POSE ESTIMATION ===', frame)
 
