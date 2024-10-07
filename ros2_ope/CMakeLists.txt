@@ -46,7 +46,8 @@ install(PROGRAMS
   opencv/calibration/getsample_Gz.py
   
   opencv/arucoMRKR.py
-  opencv/PositionEstimation.py
+  opencv/PositionEstimation_SingleMarker.py
+  opencv/PositionEstimation_MarkerGrid.py
 
   DESTINATION lib/${PROJECT_NAME} 
 )

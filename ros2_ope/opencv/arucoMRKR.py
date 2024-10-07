@@ -198,6 +198,71 @@ class ros2ope_aruco():
         
         else:
             return(RES)
+        
+# =========================================== #
+# arucoGRID class:
+class arucoGRID():
+    
+    def __init__(self, H, W):
+
+        self.ARUCOdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
+        self.params = cv2.aruco.DetectorParameters()
+        
+        self.H = H # Height of ARUCO-GRID (mm)
+        self.W = W # Width of ARUCO-GRID (mm)
+        
+    def detectGRID(self, FRAME):
+        
+        RES = {}
+        RES["GRID"] = None
+        RES["Success"] = False
+        
+        # Detect ArUco markers:
+        corners, ids, rejected_img_points = cv2.aruco.detectMarkers(FRAME, self.ARUCOdict, parameters=self.params)
+        
+        if ids is not None:
+            
+            cv2.aruco.drawDetectedMarkers(FRAME, corners, ids)
+        
+            # Calibration process:
+            src = np.zeros((4, 2), dtype=np.float32)  # Points of the corners from the input image.
+            dst = np.array([[0.0, 0.0], [self.W, 0.0], [0.0, self.H], [self.W, self.H]], dtype=np.float32)  # Points calibrated with w and h.
+            
+            poly_corner = np.zeros((4, 3), dtype=np.int32)
+            
+            # Get the first corner & ID of the markers:
+            for i in range(4):
+                poly_corner[i][0] = int(ids[i][0])
+                poly_corner[i][1] = int(corners[i][0][0][0])
+                poly_corner[i][2] = int(corners[i][0][0][1])
+
+            # Arrange by ID: 
+            for i in range(3):
+                for j in range(i + 1, 4):
+                    if poly_corner[i][0] > poly_corner[j][0]:
+                        for k in range(3):
+                            aux = poly_corner[i][k]
+                            poly_corner[i][k] = poly_corner[j][k]
+                            poly_corner[j][k] = aux
+
+            # Get the source vector:
+            for i in range(4):
+                src[i] = np.array([poly_corner[i][1], poly_corner[i][2]], dtype=np.float32)
+
+            # Get the transform matrix:
+            perspTransMatrix = cv2.getPerspectiveTransform(src, dst)
+            
+            # Get the TRANSFORMED IMAGE:
+            perspectiveImg = cv2.warpPerspective(FRAME, perspTransMatrix, (int(self.W), int(self.H)))
+            
+            # RESULT:
+            RES["GRID"] = perspectiveImg
+            RES["Success"] = True
+            return(RES)
+        
+        else:
+            
+            return(RES)
     
 # ===================================================================================== #
 # ======================================= MAIN ======================================== #

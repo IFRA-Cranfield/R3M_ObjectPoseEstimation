@@ -97,7 +97,7 @@ def main(args=None):
     print("")
 
     print("Object Detection and Pose Estimation in ROS 2.")
-    print("Python script -> PositionEstimation.py")
+    print("Python script -> PositionEstimation_SingleMarker.py")
     print("")
 
     # Get ENVIRONMENT parameter value:
