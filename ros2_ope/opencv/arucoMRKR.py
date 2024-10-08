@@ -221,8 +221,11 @@ class arucoGRID():
         corners, ids, rejected_img_points = cv2.aruco.detectMarkers(FRAME, self.ARUCOdict, parameters=self.params)
         
         if ids is not None:
+
+            if len(ids) is not 4:
+                return(RES)
             
-            cv2.aruco.drawDetectedMarkers(FRAME, corners, ids)
+            # cv2.aruco.drawDetectedMarkers(FRAME, corners, ids)
         
             # Calibration process:
             src = np.zeros((4, 2), dtype=np.float32)  # Points of the corners from the input image.

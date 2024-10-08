@@ -46,6 +46,7 @@ install(PROGRAMS
   opencv/calibration/getsample_Gz.py
   
   opencv/arucoMRKR.py
+  opencv/gridPARAMS.py
   opencv/PositionEstimation_SingleMarker.py
   opencv/PositionEstimation_MarkerGrid.py
 

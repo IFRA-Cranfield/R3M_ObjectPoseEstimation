@@ -223,61 +223,71 @@ def main(args=None):
                         # Get NAME of the detected OBJECT:
                         C = int(box.cls)
                         ObjectName = YOLOmodel.names[C]
+                        
+                        ConfLevel = box.conf.item() # LEVEL OF CONFIDENCE.
+                        B = box.xyxy[0] # Detected object's BOUNDING BOX.
 
                         # Calculate CENTER of BB:
-                        B = box.xyxy[0]
                         BBx = (B[0] + B[2])/2
                         BBy = (B[1] + B[3])/2
 
-                        print("=== PIXEL COORDINATES ===")
-                        print("NAME: " + ObjectName + " X: " + str(BBx.item()) +", Y: " + str(BBy.item()))
-                        
-                        # CALCULATE x and y COORDINATES of OBJECT:
-                        OBJx = BBy/1000
-                        OBJy = BBx/1000
-                        
-                        # CALCULATE OBJECT COORDINATES RELATIVE TO ARUCO:
-                        X = float(OBJx.item())
-                        Y = float(OBJy.item())
-                        
-                        print("=== GLOBAL COORDINATES ===")
-                        print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
-                        
-                        # APPLY -> Corrections:
-                        (X,Y) = GRID.applyCORRECTION(X,Y)
-                        
-                        print("=== GLOBAL COORDINATES (CORRECTED) ===")
-                        print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
-                        print("")
-                        
-                        # PUBLISH POSE:
-                        POSE = ObjectPose()
-                        POSE.objectname = ObjectName
-                        POSE.x = X
-                        POSE.y = Y
+                        print("Object found -> " + ObjectName + ", CL: " + str(ConfLevel))
 
-                        PUBList[ObjectName].publish(POSE)
+                        # COMPUTE EXTRA IMG-PROCESSING STEP:
+                        EP = GRID.extraSTEP(convertedIMG[int(B[1])-5:int(B[3])+5, int(B[0])-5:int(B[2])+5], ObjectName, BBx, BBy)
 
-                        # To visualize BoundingBoxes:
-                        cv2.rectangle(convertedIMG, (int(B[0]), int(B[1])), (int(B[2]), int(B[3])), (0,0,0), 2)
-                        cv2.circle(convertedIMG, (int(BBx), int(BBy)), radius=3, color=(0,255,0), thickness=-1)
+                        if EP and ConfLevel >= 0.70:
 
-                        # To visualize pose next to objects:
-                        LABEL = ObjectName + " -> x: " + str(X) + ", y: " + str(Y)
-                        cv2.putText(convertedIMG, LABEL, (int(B[0]), int(B[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2)
+                            print("=== PIXEL COORDINATES ===")
+                            print("NAME: " + ObjectName + " X: " + str(BBx.item()) +", Y: " + str(BBy.item()))
+                            
+                            # CALCULATE x and y COORDINATES of OBJECT:
+                            OBJx = BBy/1000
+                            OBJy = BBx/1000
+                            
+                            # CALCULATE OBJECT COORDINATES RELATIVE TO ARUCO:
+                            X = float(OBJx.item())
+                            Y = float(OBJy.item())
+                            
+                            print("=== GLOBAL COORDINATES ===")
+                            print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
+                            
+                            # APPLY -> Corrections:
+                            (X,Y) = GRID.applyCORRECTION(X,Y)
+                            
+                            print("=== GLOBAL COORDINATES (CORRECTED) ===")
+                            print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
+                            print("")
+                            
+                            # PUBLISH POSE:
+                            POSE = ObjectPose()
+                            POSE.objectname = ObjectName
+                            POSE.x = X
+                            POSE.y = Y
+                            POSE.z = GRID.fixedZ(ObjectName)
+
+                            PUBList[ObjectName].publish(POSE)
+
+                            # To visualize BoundingBoxes:
+                            cv2.rectangle(convertedIMG, (int(B[0]), int(B[1])), (int(B[2]), int(B[3])), (0,0,0), 2)
+                            cv2.circle(convertedIMG, (int(BBx), int(BBy)), radius=3, color=(0,255,0), thickness=-1)
+
+                            # To visualize pose next to objects:
+                            LABEL = ObjectName + " -> x: " + str(X) + ", y: " + str(Y)
+                            cv2.putText(convertedIMG, LABEL, (int(B[0]), int(B[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2)
                         
                     print("")
 
-            if VISUALIZE:
-                
-                WINDOW = cv2.resize(convertedIMG, (1280, 720))
-                TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS and OBJECT POSITION ESTIMATION"
-                cv2.imshow(TITLE, WINDOW)
+                if VISUALIZE:
+                    
+                    WINDOW = cv2.resize(convertedIMG, (1280, 720))
+                    TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS and OBJECT POSITION ESTIMATION"
+                    cv2.imshow(TITLE, WINDOW)
 
-                key = cv2.waitKey(1)
-                if key == ord('e'):
-                    cv2.destroyWindow(TITLE)
-                    break
+                    key = cv2.waitKey(1)
+                    if key == ord('e'):
+                        cv2.destroyWindow(TITLE)
+                        break
 
     print("")
     print("Object POSITION ESTIMATION finalised.")
