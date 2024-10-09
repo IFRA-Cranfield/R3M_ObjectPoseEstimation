@@ -44,7 +44,7 @@ class grid():
                 
             gray = cv2.cvtColor(IMG, cv2.COLOR_BGR2GRAY)
             blurred = cv2.GaussianBlur(gray, (9, 9), 2)
-            circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, dp=1.2, minDist=30, param1=80, param2=35, minRadius=10, maxRadius=100)
+            circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, dp=1.2, minDist=30, param1=100, param2=50, minRadius=10, maxRadius=100)
 
             if circles is not None:
                 return(True)
