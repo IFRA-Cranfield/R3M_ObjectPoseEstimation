@@ -234,7 +234,7 @@ def main(args=None):
                         print("Object found -> " + ObjectName + ", CL: " + str(ConfLevel))
 
                         # COMPUTE EXTRA IMG-PROCESSING STEP:
-                        EP = GRID.extraSTEP(convertedIMG[int(B[1])-5:int(B[3])+5, int(B[0])-5:int(B[2])+5], ObjectName, BBx, BBy)
+                        EP = GRID.extraSTEP(convertedIMG[int(B[1])-5:int(B[3])+5, int(B[0])-5:int(B[2])+5], ObjectName, BBx, BBy, ENVIRONMENT)
 
                         if EP and ConfLevel >= 0.60:
 
@@ -253,7 +253,7 @@ def main(args=None):
                             print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
                             
                             # APPLY -> Corrections:
-                            (X,Y) = GRID.applyCORRECTION(X,Y)
+                            (X,Y) = GRID.applyCORRECTION(X,Y, ENVIRONMENT)
                             
                             print("=== GLOBAL COORDINATES (CORRECTED) ===")
                             print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))

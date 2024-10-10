@@ -13,22 +13,36 @@ class grid():
             self.H = 750
             self.W = 1050
           
-    def applyCORRECTION(self, x,y):
+    def applyCORRECTION(self, x,y, ENV):
         
         if self.CELL == "irb120-cranfield":
             
             xDIF = 0.70-x
             yDIF = 0.525-y
+
+            if ENV == "gazebo":
             
-            if xDIF >= 0:
-                x = x + abs(xDIF)*1.5/100  
+                if xDIF >= 0:
+                    x = x + abs(xDIF)*1.5/100  
+                else:
+                    x = x
+                    
+                if yDIF >= 0:
+                    y = y + abs(yDIF)*1.5/100  
+                else:
+                    y = y - abs(yDIF)*1.5/100
+            
             else:
-                x = x
-                
-            if yDIF >= 0:
-                y = y + abs(yDIF)*1.5/100  
-            else:
-                y = y - abs(yDIF)*1.5/100
+
+                if xDIF >= 0:
+                    x = x + abs(xDIF)*1.8/100  
+                else:
+                    x = x
+                    
+                if yDIF >= 0:
+                    y = y + abs(yDIF)*3.0/100  
+                else:
+                    y = y - abs(yDIF)*5.5/100
 
             return(x,y)
                 
@@ -36,33 +50,38 @@ class grid():
             
             return(x,y)
         
-    def extraSTEP(self, IMAGE, OBJECT, BBx, BBy):
+    def extraSTEP(self, IMAGE, OBJECT, BBx, BBy, env):
 
-        if OBJECT == "TopCylinder" or OBJECT == "BaseCylinder":
+        if env == "gazebo":
 
-            GREY_THRESHOLD = 195
+            if OBJECT == "TopCylinder" or OBJECT == "BaseCylinder":
 
-            IMG = IMAGE.copy()
+                GREY_THRESHOLD = 195
+
+                IMG = IMAGE.copy()
+                    
+                totalPXL = IMG.size
+                greyPXL = np.sum(IMG >= GREY_THRESHOLD)
                 
-            totalPXL = IMG.size
-            greyPXL = np.sum(IMG >= GREY_THRESHOLD)
-            
-            PERCENTAGE = (greyPXL/totalPXL) * 100
-            
-            print("PERCENTAGE: " + str(PERCENTAGE))
-            
-            if PERCENTAGE >= 10:
-                return(False)
-            else:
-                return(True)
-            
-        if OBJECT == "FullAssembly" or OBJECT == "MidAssembly":
+                PERCENTAGE = (greyPXL/totalPXL) * 100
+                
+                print("PERCENTAGE: " + str(PERCENTAGE))
+                
+                if PERCENTAGE >= 10:
+                    return(False)
+                else:
+                    return(True)
+                
+            if OBJECT == "FullAssembly" or OBJECT == "MidAssembly":
 
-            if (BBy < 100 and BBx < 100) or (BBy < 100 and BBx > 950) or (BBy > 650 and BBx < 100) or (BBy > 650 and BBx > 950):
-                return(False)
+                if (BBy < 100 and BBx < 100) or (BBy < 100 and BBx > 950) or (BBy > 650 and BBx < 100) or (BBy > 650 and BBx > 950):
+                    return(False)
+                else:
+                    return(True)
+                
             else:
                 return(True)
-            
+        
         else:
             return(True)
         
