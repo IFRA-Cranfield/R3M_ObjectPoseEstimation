@@ -40,16 +40,21 @@ class grid():
 
         if OBJECT == "TopCylinder" or OBJECT == "BaseCylinder":
 
+            GREY_THRESHOLD = 195
+
             IMG = IMAGE.copy()
                 
-            gray = cv2.cvtColor(IMG, cv2.COLOR_BGR2GRAY)
-            blurred = cv2.GaussianBlur(gray, (9, 9), 2)
-            circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, dp=1.2, minDist=30, param1=100, param2=50, minRadius=10, maxRadius=100)
-
-            if circles is not None:
-                return(True)
-            else:
+            totalPXL = IMG.size
+            greyPXL = np.sum(IMG >= GREY_THRESHOLD)
+            
+            PERCENTAGE = (greyPXL/totalPXL) * 100
+            
+            print("PERCENTAGE: " + str(PERCENTAGE))
+            
+            if PERCENTAGE >= 10:
                 return(False)
+            else:
+                return(True)
             
         if OBJECT == "FullAssembly" or OBJECT == "MidAssembly":
 

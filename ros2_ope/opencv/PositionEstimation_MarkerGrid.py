@@ -236,7 +236,7 @@ def main(args=None):
                         # COMPUTE EXTRA IMG-PROCESSING STEP:
                         EP = GRID.extraSTEP(convertedIMG[int(B[1])-5:int(B[3])+5, int(B[0])-5:int(B[2])+5], ObjectName, BBx, BBy)
 
-                        if EP and ConfLevel >= 0.70:
+                        if EP and ConfLevel >= 0.60:
 
                             print("=== PIXEL COORDINATES ===")
                             print("NAME: " + ObjectName + " X: " + str(BBx.item()) +", Y: " + str(BBy.item()))
