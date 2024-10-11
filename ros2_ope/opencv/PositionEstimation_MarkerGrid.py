@@ -280,7 +280,7 @@ def main(args=None):
 
                 if VISUALIZE:
                     
-                    WINDOW = cv2.resize(convertedIMG, (1280, 720))
+                    WINDOW = cv2.resize(convertedIMG, (850, 480))
                     TITLE = "YOLO MODEL -> " + MODELname + " PREDICTION RESULTS and OBJECT POSITION ESTIMATION"
                     cv2.imshow(TITLE, WINDOW)
 
