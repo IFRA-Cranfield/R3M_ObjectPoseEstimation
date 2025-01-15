@@ -174,7 +174,7 @@ def main(args=None):
         exit()
 
     # DIRECTORY:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'yolov8', 'samples')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope', 'yolo', 'samples')
     PATH = DIR + "/" + USECASE + ".yaml"
 
     # DIRECTORY where samples will be saved:

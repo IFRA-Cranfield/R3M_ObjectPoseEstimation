@@ -1,0 +1,271 @@
+# CONFIG.yaml for picture(sample) generation.
+# Use-case -> ColouredCubes
+
+VARIANTS:
+
+  - Variant: 1
+    Objects:
+
+      - name: "WhiteCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "WhiteCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "RedCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "RedCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "BlueCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "BlueCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "GreenCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "GreenCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 2
+    Objects:
+
+      - name: "WhiteCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "WhiteCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "RedCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "RedCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "BlueCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "BlueCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 3
+    Objects:
+
+      - name: "WhiteCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "WhiteCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "RedCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "RedCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "GreenCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "GreenCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+  
+  - Variant: 4
+    Objects:
+
+      - name: "WhiteCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "WhiteCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "BlueCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "BlueCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "GreenCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "GreenCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 5
+    Objects:
+
+      - name: "RedCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "RedCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "BlueCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "BlueCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+      - name: "GreenCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "GreenCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+  
+  - Variant: 6
+    Objects:
+
+      - name: "WhiteCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "WhiteCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 7
+    Objects:
+
+      - name: "RedCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "RedCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 8
+    Objects:
+
+      - name: "BlueCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "BlueCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
+
+  - Variant: 9
+    Objects:
+
+      - name: "GreenCube"
+        pkg: "r3mcell_cu_gazebo"
+        urdf: "GreenCube"
+        pose: 
+          x: "{'min': 0.5, 'max': 0.70}"
+          y: "{'min': 0.2, 'max': 0.8}"
+          z: 0.88
+          qx: 0.0
+          qy: 0.0
+          qz: 0.0
+          qw: 0.0
