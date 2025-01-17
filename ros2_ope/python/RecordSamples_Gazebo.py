@@ -200,7 +200,7 @@ def main(args=None):
         print("")
 
         j = 0
-        while j<20:
+        while j<N:
 
             j = j + 1
 
