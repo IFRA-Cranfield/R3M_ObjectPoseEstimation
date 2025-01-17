@@ -12,6 +12,10 @@ class grid():
         if self.CELL == "irb120-cranfield":
             self.H = 750
             self.W = 1050
+        
+        else:
+            print("Cell name not valid. Please try again, bye!")
+            exit()
           
     def applyCORRECTION(self, x,y, ENV):
         
@@ -94,6 +98,15 @@ class grid():
             
             elif OBJECT == "BaseCylinder":
                 return(0.897)
+            
+            elif OBJECT == "RedCube" or "WhiteCube" or "GreenCube" or "BlueCube":
+                return(0.876)
+            
+            elif OBJECT == "TopCube":
+                return(0.8735)
+            
+            elif OBJECT == "BottomCube":
+                return(0.881)
             
             else:
                 return(0.0)
