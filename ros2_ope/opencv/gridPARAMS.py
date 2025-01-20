@@ -99,7 +99,7 @@ class grid():
             elif OBJECT == "BaseCylinder":
                 return(0.897)
             
-            elif OBJECT == "RedCube" or "WhiteCube" or "GreenCube" or "BlueCube":
+            elif OBJECT == "RedCube" or OBJECT == "WhiteCube" or OBJECT == "GreenCube" or OBJECT == "BlueCube":
                 return(0.876)
             
             elif OBJECT == "TopCube":
