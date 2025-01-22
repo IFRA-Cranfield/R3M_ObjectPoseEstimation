@@ -249,7 +249,7 @@ def main(args=None):
                             X = float(OBJx.item())
                             Y = float(OBJy.item())
                             
-                            print("=== GLOBAL COORDINATES ===")
+                            print("=== LOCAL COORDINATES (ArUco Grid) ===")
                             print("NAME: " + ObjectName + " X: " + str(X) +", Y: " + str(Y))
                             
                             # APPLY -> Corrections:

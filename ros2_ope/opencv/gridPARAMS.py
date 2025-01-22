@@ -12,6 +12,9 @@ class grid():
         if self.CELL == "irb120-cranfield":
             self.H = 750
             self.W = 1050
+        elif self.CELL == "irb1200-amrc":
+            self.H = 1100
+            self.W = 950
         
         else:
             print("Cell name not valid. Please try again, bye!")
@@ -19,6 +22,7 @@ class grid():
           
     def applyCORRECTION(self, x,y, ENV):
         
+        # CORRECTION ONLY:
         if self.CELL == "irb120-cranfield":
             
             xDIF = 0.70-x
@@ -47,6 +51,32 @@ class grid():
                     y = y + abs(yDIF)*3.0/100  
                 else:
                     y = y - abs(yDIF)*5.5/100
+
+            return(x,y)
+        
+        # TRANSFORM + CORRECTION:
+        if self.CELL == "irb1200-amrc":
+            
+            # To calculate differences:
+            xDIF = 0.95 - x
+            yDIF = 0.55 - y
+            
+            # TRANSFORMATION -> From ORIGIN (0,0) to ArUco Grid ORIGIN (0.275,-0.375):
+            x = 0.125 + x
+            y = -0.375 + y
+
+            if ENV == "gazebo":
+            
+                x = x + 0.003 + xDIF * 0.02
+            
+                if y >= 0.1:
+                    y = y - abs(yDIF) * 0.025
+                else:
+                    y = y + abs(yDIF) * 0.025
+            
+            else:
+
+                None
 
             return(x,y)
                 
@@ -107,6 +137,20 @@ class grid():
             
             elif OBJECT == "BottomCube":
                 return(0.881)
+            
+            else:
+                return(0.0)
+            
+        if self.CELL == "irb1200-amrc":
+            
+            if OBJECT == "RedCube" or OBJECT == "WhiteCube" or OBJECT == "GreenCube" or OBJECT == "BlueCube":
+                return(0.135)
+            
+            elif OBJECT == "TopCube":
+                return(0.1325)
+                
+            elif OBJECT == "BottomCube":
+                return(0.139)    
             
             else:
                 return(0.0)
