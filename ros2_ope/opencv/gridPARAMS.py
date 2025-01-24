@@ -58,7 +58,7 @@ class grid():
         if self.CELL == "irb1200-amrc":
             
             # To calculate differences:
-            xDIF = 0.95 - x
+            xDIF = 1.1 - x
             yDIF = 0.55 - y
             
             # TRANSFORMATION -> From ORIGIN (0,0) to ArUco Grid ORIGIN (0.275,-0.375):
@@ -76,7 +76,7 @@ class grid():
             
             else:
 
-                None
+                x = x + 0.007 + xDIF * 0.025
 
             return(x,y)
                 
