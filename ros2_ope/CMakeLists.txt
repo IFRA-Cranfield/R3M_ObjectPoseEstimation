@@ -36,6 +36,7 @@ install(
 install(PROGRAMS
   
   python/imgROS2.py
+  python/convertSAMPLES.py
   python/RecordSamples_Gazebo.py
   python/RecordSamples_Camera.py
 
