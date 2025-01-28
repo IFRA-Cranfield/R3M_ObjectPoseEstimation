@@ -141,7 +141,7 @@ class grid():
             else:
                 return(0.0)
             
-        if self.CELL == "irb1200-amrc":
+        if (self.CELL == "irb1200-amrc"):
             
             if OBJECT == "RedCube" or OBJECT == "WhiteCube" or OBJECT == "GreenCube" or OBJECT == "BlueCube":
                 return(0.135)
@@ -151,6 +151,12 @@ class grid():
                 
             elif OBJECT == "BottomCube":
                 return(0.139)    
+                
+            elif OBJECT == "TopCylinder":
+                return(0.13)
+            
+            elif OBJECT == "BaseCylinder":
+                return(0.16)
             
             else:
                 return(0.0)
