@@ -9,9 +9,13 @@ class grid():
     def __init__(self, CELL):
         
         self.CELL = CELL
+        
         if self.CELL == "irb120-cranfield":
             self.H = 750
             self.W = 1050
+        elif self.CELL == "ur3-cranfield":
+            self.H = 415
+            self.W = 550
         elif self.CELL == "irb1200-amrc":
             self.H = 1100
             self.W = 950
@@ -55,6 +59,15 @@ class grid():
             return(x,y)
         
         # TRANSFORM + CORRECTION:
+        
+        if self.CELL == "ur3-cranfield":
+            
+            # TRANSFORMATION -> From ORIGIN (0,0) to ArUco Grid ORIGIN (0.275,-0.035):
+            x = -0.275 + y
+            y = 0.38 - x
+            
+            return(x,y)
+        
         if self.CELL == "irb1200-amrc":
             
             # To calculate differences:
@@ -137,6 +150,26 @@ class grid():
             
             elif OBJECT == "BottomCube":
                 return(0.881)
+            
+            else:
+                return(0.0)
+            
+        if self.CELL == "ur3-cranfield":
+
+            if OBJECT == "TopCylinder":
+                return(0.854)
+            
+            elif OBJECT == "BaseCylinder":
+                return(0.884)
+            
+            elif OBJECT == "RedCube" or OBJECT == "WhiteCube" or OBJECT == "GreenCube" or OBJECT == "BlueCube":
+                return(0.86)
+            
+            elif OBJECT == "TopCube":
+                return(0.857)
+            
+            elif OBJECT == "BottomCube":
+                return(0.864)
             
             else:
                 return(0.0)
