@@ -61,10 +61,16 @@ class grid():
         # TRANSFORM + CORRECTION:
         
         if self.CELL == "ur3-cranfield":
+
+            xo = x
+            yo = y
             
             # TRANSFORMATION -> From ORIGIN (0,0) to ArUco Grid ORIGIN (0.275,-0.035):
-            x = -0.275 + y
-            y = 0.38 - x
+            x = -0.275 + yo
+            y = 0.38 - xo
+
+            # CORRECTION:
+            Yc = y + y*0.002
             
             return(x,y)
         
