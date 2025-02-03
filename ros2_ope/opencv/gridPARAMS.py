@@ -95,7 +95,7 @@ class grid():
             
             else:
 
-                x = x + 0.007 + xDIF * 0.025
+                x = x + xDIF * 0.025
 
             return(x,y)
                 
