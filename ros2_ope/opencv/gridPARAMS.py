@@ -78,7 +78,7 @@ class grid():
             
             # To calculate differences:
             xDIF = 1.1 - x
-            yDIF = 0.55 - y
+            yDIF = 0.475 - y
             
             # TRANSFORMATION -> From ORIGIN (0,0) to ArUco Grid ORIGIN (0.275,-0.375):
             x = 0.125 + x
@@ -95,8 +95,9 @@ class grid():
             
             else:
 
-                x = x + xDIF * 0.025
-
+                x = x + 0.004 + xDIF * 0.05
+                y = y + 0.002
+            
             return(x,y)
                 
         else:
