@@ -66,7 +66,7 @@ def main(args=None):
     images = []
 
     # DIRECTORY:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope', 'opencv', 'calibration')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope', 'opencv', 'calibration')
     PATH = DIR + "/" + CAMERA + "/samples/"
 
     # Load images:

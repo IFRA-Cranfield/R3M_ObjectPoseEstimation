@@ -23,7 +23,7 @@
 
       <origin xyz= "0.0 0.0 0.0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ros2_ope)/meshes/objects/${name}.dae"/>
+        <mesh filename="file://$(find r3m_ope)/meshes/objects/${name}.dae"/>
       </geometry>
 
     </collision>
@@ -32,7 +32,7 @@
 
       <origin xyz= "0.0 0.0 0.0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ros2_ope)/meshes/objects/${name}.dae"/>
+        <mesh filename="file://$(find r3m_ope)/meshes/objects/${name}.dae"/>
       </geometry>
 
     </visual>

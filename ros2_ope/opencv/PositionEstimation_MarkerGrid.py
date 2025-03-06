@@ -28,7 +28,7 @@ sys.dont_write_bytecode = True
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/ros2_ObjectPoseEstimation
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/r3m_ObjectPoseEstimation
 
 # PositionEstimation.py
 # This script performs:
@@ -158,7 +158,7 @@ def main(args=None):
         CAMERA = cv2.VideoCapture(0)
 
     # Load custom YOLO MODEL:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_ObjectPoseEstimation', 'ros2_ope',  'yolo', 'models')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope',  'yolo', 'models')
     modelPATH = DIR + "/" + MODELname + ".pt"
 
     if not os.path.exists(modelPATH):

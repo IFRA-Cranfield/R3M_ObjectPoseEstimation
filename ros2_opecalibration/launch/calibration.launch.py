@@ -73,7 +73,7 @@ def generate_launch_description():
     # ***** GAZEBO ***** #   
     # DECLARE Gazebo WORLD file:
     robot_gazebo = os.path.join(
-        get_package_share_directory('ros2_opecalibration'),
+        get_package_share_directory('r3m_opecalibration'),
         'worlds',
         'calibenv.world')
     # DECLARE Gazebo LAUNCH file:
@@ -84,7 +84,7 @@ def generate_launch_description():
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
-    robot_description_path = os.path.join(get_package_share_directory('ros2_opecalibration'))
+    robot_description_path = os.path.join(get_package_share_directory('r3m_opecalibration'))
     # ROBOT urdf file path:
     xacro_file = os.path.join(robot_description_path,'urdf','calibenv.urdf.xacro')
     # Generate ROBOT_DESCRIPTION variable:

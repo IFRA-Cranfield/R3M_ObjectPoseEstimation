@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   
-  <name>ros2_opecalibration</name>
+  <name>r3m_opecalibration</name>
   <version>0.0.0</version>
   <description>IFRA-Cranfield (Cranfield University, UK). Package: ROS 2 Object Pose Estimation (CALIBRATION)</description>
   

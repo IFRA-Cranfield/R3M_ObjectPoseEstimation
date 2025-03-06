@@ -28,7 +28,7 @@ sys.dont_write_bytecode = True
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/ros2_ObjectPoseEstimation
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/r3m_ObjectPoseEstimation
 
 # convertSAMPLES.py
 # This script converts sample images, by cutting the picture to the ArUco grid-marked zone.
@@ -41,7 +41,7 @@ import cv2
 
 # ARUCO:
 from ament_index_python.packages import get_package_share_directory
-PATH_F = os.path.join(get_package_share_directory("ros2_ope"), 'opencv')
+PATH_F = os.path.join(get_package_share_directory("r3m_ope"), 'opencv')
 sys.path.append(PATH_F)
 from arucoMRKR import arucoGRID
 from gridPARAMS import grid
