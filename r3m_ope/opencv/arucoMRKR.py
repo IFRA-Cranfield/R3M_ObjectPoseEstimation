@@ -26,7 +26,7 @@
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/r3m_ObjectPoseEstimation
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/R3M_ObjectPoseEstimation
 
 # arucoMRKR.py
 # This script contains the ros2ope_ARUCO class and its functions.
@@ -109,7 +109,7 @@ class ros2ope_aruco():
 
     def loadCALIBPARAMS(self):
 
-        DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope', 'opencv', 'calibration')
+        DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'R3M_ObjectPoseEstimation', 'r3m_ope', 'opencv', 'calibration')
         
         yamlPATH =  DIR + "/" + self.CAMERA + "/calibration.yaml"
         with open(yamlPATH) as f:

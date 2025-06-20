@@ -26,7 +26,7 @@
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/r3m_ObjectPoseEstimation
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/R3M_ObjectPoseEstimation
 
 # predict.py
 # This script runs the YOLO-predict execution for a custom detection model.
@@ -114,7 +114,7 @@ def main(args=None):
     print("")
 
     # Load custom MODEL:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope',  'yolo', 'models')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'R3M_ObjectPoseEstimation', 'r3m_ope',  'yolo', 'models')
     modelPATH = DIR + "/" + MODELname + ".pt"
 
     if not os.path.exists(modelPATH):

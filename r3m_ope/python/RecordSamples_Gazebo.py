@@ -26,7 +26,7 @@
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/r3m_ObjectPoseEstimation
+# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/R3M_ObjectPoseEstimation
 
 # RecordSamples_Gazebo.py
 # This script records pictures of the desired objects within the Robot Cell (in GAZEBO) and stores them for future labelling.
@@ -174,7 +174,7 @@ def main(args=None):
         exit()
 
     # DIRECTORY:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope', 'yolo', 'samples')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'R3M_ObjectPoseEstimation', 'r3m_ope', 'yolo', 'samples')
     PATH = DIR + "/" + USECASE + ".yaml"
 
     # DIRECTORY where samples will be saved:

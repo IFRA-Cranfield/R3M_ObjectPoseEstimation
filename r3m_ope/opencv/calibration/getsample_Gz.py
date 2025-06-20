@@ -123,7 +123,7 @@ def main(args=None):
         exit()
 
     # DIRECTORY:
-    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'r3m_ObjectPoseEstimation', 'r3m_ope', 'opencv', 'calibration')
+    DIR = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'R3M_ObjectPoseEstimation', 'r3m_ope', 'opencv', 'calibration')
     PATH = DIR + "/" + CAMERA
 
     # DIRECTORY where samples will be saved:
