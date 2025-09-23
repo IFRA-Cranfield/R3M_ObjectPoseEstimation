@@ -7,7 +7,7 @@ VARIANTS:
     Objects:
 
       - name: "WhiteCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "WhiteCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -19,7 +19,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "RedCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "RedCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -31,7 +31,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "BlueCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "BlueCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -43,7 +43,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "GreenCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "GreenCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -58,7 +58,7 @@ VARIANTS:
     Objects:
 
       - name: "WhiteCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "WhiteCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -70,7 +70,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "RedCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "RedCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -82,7 +82,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "BlueCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "BlueCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -97,7 +97,7 @@ VARIANTS:
     Objects:
 
       - name: "WhiteCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "WhiteCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -109,7 +109,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "RedCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "RedCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -121,7 +121,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "GreenCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "GreenCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -136,7 +136,7 @@ VARIANTS:
     Objects:
 
       - name: "WhiteCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "WhiteCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -148,7 +148,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "BlueCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "BlueCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -160,7 +160,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "GreenCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "GreenCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -175,7 +175,7 @@ VARIANTS:
     Objects:
 
       - name: "RedCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "RedCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -187,7 +187,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "BlueCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "BlueCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -199,7 +199,7 @@ VARIANTS:
           qw: 0.0
 
       - name: "GreenCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "GreenCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -214,7 +214,7 @@ VARIANTS:
     Objects:
 
       - name: "WhiteCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "WhiteCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -229,7 +229,7 @@ VARIANTS:
     Objects:
 
       - name: "RedCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "RedCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -244,7 +244,7 @@ VARIANTS:
     Objects:
 
       - name: "BlueCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "BlueCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
@@ -259,7 +259,7 @@ VARIANTS:
     Objects:
 
       - name: "GreenCube"
-        pkg: "r3mcell_cu_gazebo"
+        pkg: "r3mcell_cu"
         urdf: "GreenCube"
         pose: 
           x: "{'min': 0.5, 'max': 0.70}"
