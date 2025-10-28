@@ -125,7 +125,11 @@ The R3M Project is an EPSRC-funded UK research initiative (EP/V051180/1) focused
 
 ### R3M-ObjectPoseEstimation Repository
 
-TBD.
+The R3M-ObjectPoseEstimation repository provides the perception layer used across R3M use-cases, combining object detection and 6-DoF pose estimation for both simulation and real cells. It includes YOLOv11-based models tailored to R3M workpieces and fixtures, plus the accompanying YOLO runtime code to perform fast, robust detections. Building on these detections, the repo offers OpenCV pipelines for single ArUco marker pose estimation and ArUco-grid pose estimation, enabling precise object localization for manipulation tasks.
+
+Designed for portability, the same pipelines run in Gazebo and on real hardware, and are validated on the IRB120, IRB1200, UR3, and IRB6640 robot cells. In typical use, YOLO provides 2D bounding boxes/class IDs, while the ArUco modules recover metric poses relative to calibrated cameras—producing object frames that downstream R3M modules can consume for skill execution, APG program generation, and verification.
+
+This module publishes the runtime 6-DoF pose of the detected objects to a dedicated ROS 2 Topic, which is subsequently identified and consumed by the R3M Architecture. This ensures full integration within the system, enabling autonomous perception-driven decision-making for program execution, skill orchestration, and task validation across the R3M platform.
 
 ### ros2_SimRealRobotControl Repository
 
