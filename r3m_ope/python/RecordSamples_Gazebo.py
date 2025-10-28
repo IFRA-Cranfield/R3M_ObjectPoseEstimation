@@ -2,9 +2,13 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
-#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
-#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                           ***** R3M Research Project *****                            #
+#                                                                                       #
+#  Reconfigurable Robotics for Responsive Manufacture (R3M) is a three-year research    #
+#  project co-funded by the EPSRC and a group of Universities in the UK. The project    #
+#  aims to develop new methods to enable the rapid and automated configuration of       #
+#  robot manufacturing cells to allow mixed and variable products and processes to be   #
+#  performed using the same basic hardware, the R3M Cell.                               #
 #                                                                                       #
 #  Licensed under the Apache-2.0 License.                                               #
 #  You may not use this file except in compliance with the License.                     #
@@ -15,18 +19,31 @@
 #  conditions of any kind, either express or implied. See the License for the specific  #
 #  language governing permissions and limitations under the License.                    #
 #                                                                                       #
-#  IFRA Group - Cranfield University                                                    #
-#  AUTHORS: Mikel Bueno Viso         - Mikel.Bueno-Viso@cranfield.ac.uk                 #
-#           Seemal Asif              - s.asif@cranfield.ac.uk                           #
-#           Phil Webb                - p.f.webb@cranfield.ac.uk                         #
+#  R3M Project Consortium:                                                              #
 #                                                                                       #
-#  Date: November, 2024.                                                                #
+#  AUTHORS (Cranfield University):                                                      #
+#           Mikel Bueno Viso       - Mikel.Bueno-Viso@cranfield.ac.uk                   #
+#           Dr. Seemal Asif        - s.asif@cranfield.ac.uk                             #
+#           Prof. Phil Webb        - p.f.webb@cranfield.ac.uk                           #
+#                                                                                       #
+#  AUTHORS (Loughborough University):                                                   #
+#           Dr. Paul Anandan       - p.d.anandan2@lboro.ac.uk                           #
+#           Dr. Pedro Ferreira     - P.Ferreira@lboro.ac.uk                             #
+#           Prof. Niels Lohse      - n.lohse@lboro.ac.uk                                #
+#                                                                                       #
+#  AUTHORS (Sheffield University):                                                      #
+#           Yue Yao                - yue.yao@sheffield.ac.uk                            #
+#           Dr. Ze Zhang           - ze.zhang@sheffield.ac.uk                           #
+#           Dr. Windo Hutabarat    - w.hutabarat@sheffield.ac.uk                        #
+#           Prof. Ashutosh Tiwari  - a.tiwari@sheffield.ac.uk                           #
+#                                                                                       #
+#  AUTHORS (AMRC - Sheffield):                                                          #
+#           Dr. Gautham Ragunathan - g.ragunathan@amrc.co.uk                            #
+#           Dr. Lloyd Tinkler      - l.tinkler@amrc.co.uk                               #
+#                                                                                       #
+#  Date: February, 2025.                                                                #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
-
-# ======= CITE OUR WORK ======= #
-# You can cite our work with the following statement:
-# IFRA-Cranfield (2024). Object Detection and Pose Estimation within a Robot Cell. URL: https://github.com/IFRA-Cranfield/R3M_ObjectPoseEstimation
 
 # RecordSamples_Gazebo.py
 # This script records pictures of the desired objects within the Robot Cell (in GAZEBO) and stores them for future labelling.
